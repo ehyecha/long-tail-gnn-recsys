@@ -16,11 +16,14 @@ DC(Degree Centrality) / BC(Betweenness Centrality) 기반 아이템 중심성 �
 
 Tail-aware Negative Sampling 전략 적용
 
-Gowalla Dataset, Animation 기반 실험
+Gowalla, Animation Dataset 기반 실험
 
 PyTorch Lightning + PyTorch Geometric로 모델 구조 구현
 
 Optuna 기반 하이퍼파라미터 튜닝 적용
 
 EC2에서 clean environment 재현성 테스트 완료
+
+
+## 3. 
 
