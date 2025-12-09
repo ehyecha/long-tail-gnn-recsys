@@ -96,5 +96,6 @@ docker run --gpus all -it myrecsys:latest --lr 0.03316329 --embedding 128 --laye
 | **DC Mixed** | 0.14 *(+17%)* | 0.057 *(+3%)*    | 0.0019 *(−20%)* |
 
 
-
+### Animation 데이터
+Animation 데이터셋은 파일 용량이 커 GitHub 저장소에는 포함하지 않았습니다.
 
