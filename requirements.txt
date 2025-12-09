@@ -1,0 +1,28 @@
+# PyTorch + CUDA 11.8 (호환되는 가장 안정적인 조합)
+# torch==2.1.0+cu118
+# torchvision==0.16.0+cu118
+# torchaudio==2.1.0
+# 위 3개는 아래 인덱스를 사용해야 설치됨 (설치 시 명령어에서 --index-url 옵션 필요)
+
+# PyG core dependencies
+# torch-scatter==2.1.2+pt21cu118
+# torch-sparse==0.6.18+pt21cu118
+# torch-cluster==1.6.3+pt21cu118
+# torch-spline-conv==1.2.2+pt21cu118
+# pyg-lib==0.4.0+pt21cu118
+# torch-geometric==2.3.1
+
+# 데이터 처리 관련
+pandas
+scikit-learn
+tqdm
+numpy==1.26.2
+
+# 하이퍼파라미터 튜닝
+optuna
+pytorch-lightning
+optuna-integration[pytorch_lightning]
+
+# 기타 유틸
+matplotlib
+seaborn

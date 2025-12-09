@@ -14,6 +14,8 @@ LightGCN 기반 임베딩 모델 구현
 
 DC(Degree Centrality) / BC(Betweenness Centrality) 기반 아이템 중심성 계산
 
+전체 사용자-아이템 그래프를 networkx를 통해서 아이템 기준 DC, BC 계산
+
 Tail-aware Negative Sampling 전략 적용
 
 Gowalla, Animation Dataset 기반 실험
@@ -25,5 +27,74 @@ Optuna 기반 하이퍼파라미터 튜닝 적용
 EC2에서 clean environment 재현성 테스트 완료
 
 
-## 3. 
+## 3. Hyperparameter
+
+### 데이터셋별 & 샘플링별 하이퍼파라미터
+
+
+| 데이터셋    | 샘플링 방법       | lr      | embedding_dim | num_layers | batch_size   | weight_decay| epochs | dropout | alpha | omega | beta|
+|------------|-----------------|---------|---------------|------------|------------|-----------|--------|---------|---------|-------|-----|
+| Gowalla    | Uniform      | 0.0332  | 128           | 3          | 128        | 4.35e-06  | 100    | 0.01627 |
+| Gowalla    | DC Mixed   | 0.0077  | 256           | 4          | 32         | 2.80e-06  | 100    | 0.2     | 0.7     |  1   |
+| Gowalla    | BC Mixed    | 0.0028  | 256           | 2          | 64         | 1.86e-06  | 100    | 0.2     | 0.8     |  1.2 |
+| Gowalla    | Hybrid DC+BC  | 0.0046  | 256           | 2          | 32         | 1.18e-06  | 100     | 0.05      | 0.9. |  1.5 | 0.1
+| Animation  | Uniform      | 0.0090  | 32            | 1          | 128        | 1.94e-06  | 100     | 0.23      |      |      |
+| Animation  | DC Mixed    | 0.01 | 48           | 3          | 128         | 1e-06        | 100        | 0.4      | 0.6 | 1.2|
+
+
+## 4. 실행방법
+
+docker build -t myrecsys:latest .
+docker run --gpus all -it myrecsys:latest --lr 0.03316329 --embedding 128 --layer 3 --sampling dc --alpha 0.7 --omega 1
+
+## 5. 실험결과
+
+### Gowalla Dataset Results
+
+표 1. 전체 HR/NDCG/Recall 성능 비교
+| Method             | HR@20      | NDCG@20    | Recall@20  |
+| ------------------ | ---------- | ---------- | ---------- |
+| **Uniform**        | 0.382      | 0.0872     | 0.11       |
+| **DC Mixed**       | 0.389      | 0.0891     | 0.112      |
+| **BC Mixed**       | 0.4409     | 0.1071     | 0.1329     |
+| **Hybrid DC + BC** | **0.4501** | **0.1085** | **0.1365** |
+
+표 2. Tail 성능 비교
+| Method             | Tail HR@50       | Tail NDCG@50       | Tail Recall@50    |
+| ------------------ | ---------------- | ------------------ | ----------------- |
+| **Uniform**        | 0.0053           | 0.0009             | 0.0045            |
+| **DC Mixed**       | 0.0064 *(+28%)*  | 0.0011 *(+22%)*    | 0.005 *(+25%)*    |
+| **BC Mixed**       | 0.011 *(+22%)*   | 0.0019 *(+111%)*   | 0.008 *(+100%)*   |
+| **Hybrid DC + BC** | **0.015 (+25%)** | **0.0028 (+211%)** | **0.012 (+200%)** |
+
+표 3. Coverage 및 Long-tail Ratio 비교
+| Method             | Coverage@20        | Tail Coverage@50   | Long-tail Ratio    |
+| ------------------ | ------------------ | ------------------ | ------------------ |
+| **Uniform**        | 0.0194             | 0.0016             | 0.0023             |
+| **DC Mixed**       | 0.0216 *(+11%)*    | 0.0022 *(+38%)*    | 0.0031 *(+35%)*    |
+| **BC Mixed**       | 0.0373 *(+92%)*    | 0.005 *(+155%)*    | 0.0062 *(+170%)*   |
+| **Hybrid DC + BC** | **0.0476 (+145%)** | **0.0097 (+162%)** | **0.0089 (+287%)** |
+
+### Animation Dataset Results
+
+표 1. 전체 HR/NDCG/Recall 성능 비교 
+| Method       | HR@20        | NDCG@20        | Recall@20      |
+| ------------ | ------------ | -------------- | -------------- |
+| **Uniform**  | 0.66         | 0.13           | 0.16           |
+| **DC Mixed** | 0.68 *(+3%)* | 0.147 *(+13%)* | 0.179 *(+12%)* |
+
+표 2. Tail 성능 비교
+| Method       | Tail HR@50      | Tail NDCG@50     | Tail Recall@50   |
+| ------------ | --------------- | ---------------- | ---------------- |
+| **Uniform**  | 0.0025          | 0.00021          | 0.00057          |
+| **DC Mixed** | 0.0036 *(+44%)* | 0.00029 *(+38%)* | 0.00078 *(+36%)* |
+
+표 3. Coverage 및 Long-tail Ratio 비교
+| Method       | Coverage@20   | Tail Coverage@50 | Long-tail Ratio |
+| ------------ | ------------- | ---------------- | --------------- |
+| **Uniform**  | 0.12          | 0.055            | 0.0024          |
+| **DC Mixed** | 0.14 *(+17%)* | 0.057 *(+3%)*    | 0.0019 *(−20%)* |
+
+
+
 
