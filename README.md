@@ -27,16 +27,16 @@ EC2에서 clean environment 재현성 테스트 완료
 
 ## 3. Hyperparameter
 
-### 데이터셋별 & 샘플링별 하이퍼파라미터
+데이터셋별 & 샘플링별 하이퍼파라미터
 
 
 | 데이터셋    | 샘플링 방법       | lr      | embedding_dim | num_layers | batch_size   | weight_decay| epochs | dropout | alpha | omega | beta|
 |------------|-----------------|---------|---------------|------------|------------|-----------|--------|---------|---------|-------|-----|
-| Gowalla    | Uniform      | 0.0332  | 128           | 3          | 128        | 4.35e-06  | 100    | 0.01627 |
-| Gowalla    | DC Mixed   | 0.0077  | 256           | 4          | 32         | 2.80e-06  | 100    | 0.2     | 0.7     |  1   |
+| Gowalla    | Uniform     | 0.0332  | 128           | 3          | 128        | 4.35e-06  | 100    | 0.01627 |
+| Gowalla    | DC Mixed    | 0.0077  | 256           | 4          | 32         | 2.80e-06  | 100    | 0.2     | 0.7     |  1   |
 | Gowalla    | BC Mixed    | 0.0028  | 256           | 2          | 64         | 1.86e-06  | 100    | 0.2     | 0.8     |  1.2 |
-| Gowalla    | Hybrid DC+BC  | 0.0046  | 256           | 2          | 32         | 1.18e-06  | 100     | 0.05      | 0.9. |  1.5 | 0.1
-| Animation  | Uniform      | 0.0090  | 32            | 1          | 128        | 1.94e-06  | 100     | 0.23      |      |      |
+| Gowalla    | Hybrid DC+BC| 0.0046  | 256           | 2          | 32         | 1.18e-06  | 100     | 0.05      | 0.9. |  1.5 | 0.1
+| Animation  | Uniform     | 0.0090  | 32            | 1          | 128        | 1.94e-06  | 100     | 0.23      |      |      |
 | Animation  | DC Mixed    | 0.01 | 48           | 3          | 128         | 1e-06        | 100        | 0.4      | 0.6 | 1.2|
 
 
@@ -47,7 +47,7 @@ docker run --gpus all -it myrecsys:latest --lr 0.03316329 --embedding 128 --laye
 
 ## 5. 실험결과
 
-### Gowalla Dataset Results
+#### Gowalla Dataset Results
 
 표 1. 전체 HR/NDCG/Recall 성능 비교
 | Method             | HR@20      | NDCG@20    | Recall@20  |
@@ -73,7 +73,7 @@ docker run --gpus all -it myrecsys:latest --lr 0.03316329 --embedding 128 --laye
 | **BC Mixed**       | 0.0373 *(+92%)*    | 0.005 *(+155%)*    | 0.0062 *(+170%)*   |
 | **Hybrid DC + BC** | **0.0476 (+145%)** | **0.0097 (+162%)** | **0.0089 (+287%)** |
 
-### Animation Dataset Results
+#### Animation Dataset Results
 
 표 1. 전체 HR/NDCG/Recall 성능 비교 
 | Method       | HR@20        | NDCG@20        | Recall@20      |
