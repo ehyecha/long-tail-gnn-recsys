@@ -42,7 +42,7 @@ flowchart LR
     S3_Data["S3<br/>Datasets"] --> EC2["EC2 Spot<br/>Training<br/>LightGCN + Sampling"]
     EC2 --> SageMaker["SageMaker<br/>HPO"]
     SageMaker --> S3_Model["S3<br/>Checkpoints"]
-
+```
 
 ## 4. Data Pipeline
 
