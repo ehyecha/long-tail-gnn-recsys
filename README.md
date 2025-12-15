@@ -1,4 +1,4 @@
-## 1. Overview
+## 1. 개요
 본 프로젝트는 GNN 기반 추천 시스템에서 발생하는 롱테일 아이템 학습 부족 문제를 해결하기 위해
 아이템의 네트워크 중심성(DC/BC)에 기반한 Tail-Aware Negative Sampling 전략을 적용한 모델 구현 프로젝트입니다.
 
@@ -6,7 +6,7 @@
 테일 아이템의 표현 공간이 매우 빈약해지는 문제가 있습니다.
 본 연구에서는 중심성 기반 테일 샘플링을 활용하여 테일 아이템의 학습 기회를 증가시키는 것을 목표로 한다.
 
-## 2. Features
+## 2. 특징
 
 LightGCN 기반 임베딩 모델 구현
 
@@ -24,7 +24,7 @@ Optuna 기반 하이퍼파라미터 튜닝 적용
 
 EC2에서 clean environment 재현성 테스트 완료
 
-## 3. System Architecture
+## 3. 시스템 구조
 
 본 학습 파이프라인은 재현 가능한 실험 환경과 확장 가능한 하이퍼파라미터 튜닝을 목표로 설계되었습니다.
 
@@ -46,7 +46,7 @@ EC2에서 clean environment 재현성 테스트 완료
     SageMaker --> S3_Model_HPO["S3<br/>Checkpoints (HPO)"]
 ```
 
-## 4. Data Pipeline
+## 4. 데이터 파이프라인
 
 1. Amazon S3에 저장된 사용자–아이템 상호작용 데이터(Gowalla, Animation)를 로드합니다.  
 2. 사용자–아이템 그래프를 구성하고 아이템의 중심성 지표(Degree / Betweenness Centrality)를 계산합니다.  
@@ -54,7 +54,7 @@ EC2에서 clean environment 재현성 테스트 완료
 4. Amazon SageMaker를 활용하여 하이퍼파라미터 튜닝을 수행합니다.  
 5. 학습된 모델의 체크포인트와 로그를 Amazon S3에 저장합니다.
 
-## 5. Hyperparameter
+## 5. 하이퍼 파라미터
 
 데이터셋별 & 샘플링별 하이퍼파라미터
 
@@ -69,12 +69,12 @@ EC2에서 clean environment 재현성 테스트 완료
 | Animation  | DC Mixed    | 0.01 | 48           | 3          | 128         | 1e-06        | 100        | 0.4      | 0.6 | 1.2|
 
 
-## 6. 실행방법
+## 6. 실행 방법
 
 docker build -t myrecsys:latest .
 docker run --gpus all -it myrecsys:latest --lr 0.03316329 --embedding 128 --layer 3 --sampling dc --alpha 0.7 --omega 1
 
-## 7. 실험결과
+## 7. 실험 결과
 
 #### Gowalla Dataset Results
 
