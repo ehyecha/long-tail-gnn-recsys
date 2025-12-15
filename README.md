@@ -24,8 +24,35 @@ Optuna 기반 하이퍼파라미터 튜닝 적용
 
 EC2에서 clean environment 재현성 테스트 완료
 
+## 3. System Architecture
 
-## 3. Hyperparameter
+본 학습 파이프라인은 재현 가능한 실험 환경과 확장 가능한 하이퍼파라미터 튜닝을 목표로 설계되었습니다.
+
+사용자–아이템 상호작용 데이터와 학습 체크포인트는 Amazon S3에 저장됩니다.
+
+모델 학습은 비용 효율성을 고려하여 EC2 Spot Instance 환경에서 수행됩니다.
+
+하이퍼파라미터 튜닝은 Amazon SageMaker를 활용하여 자동화된 실험으로 진행됩니다.
+
+최적 성능을 보인 모델의 체크포인트는 S3에 다시 저장하여 재사용이 가능하도록 구성했습니다.
+
+
+```mermaid
+flowchart LR
+    S3_Data["S3<br/>Datasets"] --> EC2["EC2 Spot<br/>Training<br/>LightGCN + Sampling"]
+    EC2 --> SageMaker["SageMaker<br/>HPO"]
+    SageMaker --> S3_Model["S3<br/>Checkpoints"]
+
+
+## 4. Data Pipeline
+
+1. Amazon S3에 저장된 사용자–아이템 상호작용 데이터(Gowalla, Animation)를 로드합니다.  
+2. 사용자–아이템 그래프를 구성하고 아이템의 중심성 지표(Degree / Betweenness Centrality)를 계산합니다.  
+3. 학습 과정에서 롱테일 아이템을 고려한 Tail-aware Negative Sampling을 적용합니다.  
+4. Amazon SageMaker를 활용하여 하이퍼파라미터 튜닝을 수행합니다.  
+5. 학습된 모델의 체크포인트와 로그를 Amazon S3에 저장합니다.
+
+## 5. Hyperparameter
 
 데이터셋별 & 샘플링별 하이퍼파라미터
 
@@ -40,12 +67,12 @@ EC2에서 clean environment 재현성 테스트 완료
 | Animation  | DC Mixed    | 0.01 | 48           | 3          | 128         | 1e-06        | 100        | 0.4      | 0.6 | 1.2|
 
 
-## 4. 실행방법
+## 6. 실행방법
 
 docker build -t myrecsys:latest .
 docker run --gpus all -it myrecsys:latest --lr 0.03316329 --embedding 128 --layer 3 --sampling dc --alpha 0.7 --omega 1
 
-## 5. 실험결과
+## 7. 실험결과
 
 #### Gowalla Dataset Results
 
