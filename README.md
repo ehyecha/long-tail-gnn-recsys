@@ -39,9 +39,9 @@ EC2에서 clean environment 재현성 테스트 완료
 
 ```mermaid
 flowchart LR
-    S3_Data["S3<br/>Datasets"] --> EC2["EC2 Spot<br/>Training<br/>LightGCN + Sampling"]
-    EC2 --> SageMaker["SageMaker<br/>HPO"]
-    SageMaker --> S3_Model["S3<br/>Checkpoints"]
+    S3_Data["S3<br/>Datasets"] --> SageMaker["SageMaker<br/>HPO"]
+    SageMaker --> EC2["EC2 Spot<br/>Training<br/>LightGCN + Sampling"]
+    EC2 --> S3_Model["S3<br/>Checkpoints"]
 ```
 
 ## 4. Data Pipeline
