@@ -1,3 +1,9 @@
+![Python](https://img.shields.io/badge/Python-3.8+-blue)
+![PyTorch](https://img.shields.io/badge/PyTorch-2.0-orange)
+![PyG](https://img.shields.io/badge/PyTorch_Geometric-latest-green)
+![AWS](https://img.shields.io/badge/AWS-SageMaker%20%7C%20EC2%20Spot-yellow)
+![License](https://img.shields.io/badge/License-MIT-lightgrey)
+
 ## 1. 개요
 본 프로젝트는 GNN 기반 추천 시스템에서 발생하는 롱테일 아이템 학습 부족 문제를 해결하기 위해
 아이템의 네트워크 중심성(DC/BC)에 기반한 Tail-Aware Negative Sampling 전략을 적용한 모델 구현 프로젝트입니다.
